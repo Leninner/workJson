@@ -5,22 +5,29 @@
 }
 
 .header {
+  text-align: center;
   color: white;
   width: 100%;
-  background-color: royalblue;
-  padding: 35px 125px;
+  background-color: #264653;
+  color: #e9c46a;
+  font-size: 30px;
+  padding: 35px 0;
+  cursor: pointer;
+}
+
+.header > p:hover {
+  text-decoration: underline;
 }
 
 .carousel {
   width: 100%;
   overflow: scroll;
-  padding: 30px;
   position: relative;
 }
 
 .carousel__container {
   white-space: nowrap;
-  margin: 70px 0px;
+  margin: 70px 50px;
   padding-bottom: 10px;
 }
 
@@ -110,4 +117,16 @@
 
 ::-webkit-scrollbar:hover:active {
   background: #999;
+}
+@media only screen and (max-width: 650px) {
+  .carousel__container {
+    white-space: nowrap;
+    margin: 70px 0;
+    padding-bottom: 10px;
+  }
+  .carousel-item {
+    background-color: palevioletred;
+    width: 250px;
+    height: 300px;
+  }
 }

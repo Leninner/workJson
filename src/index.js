@@ -1,16 +1,7 @@
+const API = 'https://rickandmortyapi.com/api/character/';
 const carouselContainers = document.querySelector('.carousel__container');
 const infoDetails = document.querySelector('.infoDetails');
-const cerrarInfoDetails = document.querySelector('.cerrar-infoDetails');
-
-cerrarInfoDetails.onclick = () => {
-  infoDetails.classList.remove('active');
-};
-
-carouselContainers.addEventListener('click', (e) => {
-  if (e.target.nodeName === 'IMG') {
-    infoDetails.classList.add('active');
-  }
-});
+const contenedorInfoDetails = document.querySelector('.contenedor--infoDetails');
 
 const fetchData = (urlApi) => {
   return new Promise((resolve, reject) => {
@@ -30,8 +21,6 @@ const displayItem = (obj, iterador) => {
   const carouselItem = document.createElement('div');
   const imgMain = document.createElement('img');
   const carouselItemDetails = document.createElement('div');
-  const divUno = document.createElement('div');
-  const imgSeeInfo = document.createElement('img');
   const pTitle = document.createElement('p');
   const pSubtitle = document.createElement('p');
 
@@ -43,18 +32,34 @@ const displayItem = (obj, iterador) => {
 
   imgMain.src = `${obj.results[iterador].image}`;
   imgMain.alt = `${obj.results[iterador].id}`;
-  imgSeeInfo.src = 'https://img.icons8.com/glyph-neue/64/000000/connection-status-off.png';
-  imgSeeInfo.alt = 'play';
   pTitle.textContent = `${obj.results[iterador].name}`;
   pSubtitle.textContent = `${obj.results[iterador].species} | ${obj.results[iterador].gender}`;
 
-  divUno.appendChild(imgSeeInfo);
-  carouselItemDetails.append(divUno, pTitle, pSubtitle);
+  carouselItemDetails.append(pTitle, pSubtitle);
   carouselItem.append(imgMain, carouselItemDetails);
   carouselContainers.appendChild(carouselItem);
 };
 
-const API = 'https://rickandmortyapi.com/api/character/';
+const displayItemPersonal = (data) => {
+  const hTitle = document.createElement('h3');
+  const imgTitle = document.createElement('img');
+  const estado = document.createElement('p');
+  const genero = document.createElement('p');
+  const especie = document.createElement('p');
+  const origen = document.createElement('p');
+  const location = document.createElement('p');
+
+  hTitle.textContent = `${data.name}`;
+  imgTitle.src = `${data.image}`;
+  imgTitle.alt = `${data.id}`;
+  estado.textContent = `Estado: ${data.status}`;
+  genero.textContent = `Género: ${data.gender}`;
+  especie.textContent = `Especie: ${data.species}`;
+  origen.textContent = `Origen: ${data.origin.name}`;
+  location.textContent = `Location: ${data.location.name}`;
+
+  contenedorInfoDetails.append(hTitle, imgTitle, estado, especie, genero, origen, location);
+};
 
 for (let i = 0; i < 20; i++) {
   fetchData(API)
@@ -63,3 +68,24 @@ for (let i = 0; i < 20; i++) {
     })
     .catch((error) => console.error(error));
 }
+
+carouselContainers.addEventListener('click', (e) => {
+  if (e.target.nodeName === 'IMG') {
+    infoDetails.classList.add('active');
+    fetchData(API)
+      .then((data) => {
+        return data.results[e.target.alt - 1];
+      })
+      .then((data) => {
+        displayItemPersonal(data);
+      })
+      .catch((error) => console.error(error));
+  }
+});
+
+infoDetails.addEventListener('click', (e) => {
+  if (e.target.nodeName === 'SECTION') {
+    infoDetails.classList.remove('active');
+    contenedorInfoDetails.innerHTML = '';
+  }
+});

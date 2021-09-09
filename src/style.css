@@ -165,6 +165,16 @@ p {
 }
 
 @media only screen and (max-width: 650px) {
+  .header {
+    padding: 15px 0;
+  }
+  .header > p {
+    font-size: 20px;
+  }
+  .header > h1 {
+    font-size: 30px;
+  }
+
   .carousel__container {
     white-space: nowrap;
     margin: 70px 0;

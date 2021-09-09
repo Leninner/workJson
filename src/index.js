@@ -1,4 +1,16 @@
 const carouselContainers = document.querySelector('.carousel__container');
+const infoDetails = document.querySelector('.infoDetails');
+const cerrarInfoDetails = document.querySelector('.cerrar-infoDetails');
+
+cerrarInfoDetails.onclick = () => {
+  infoDetails.classList.remove('active');
+};
+
+carouselContainers.addEventListener('click', (e) => {
+  if (e.target.nodeName === 'IMG') {
+    infoDetails.classList.add('active');
+  }
+});
 
 const fetchData = (urlApi) => {
   return new Promise((resolve, reject) => {
